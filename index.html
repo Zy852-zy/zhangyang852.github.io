@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图片切换</title>
+    <title>张扬852 图片相册</title>
     <style>
         * {
             margin: 0;
@@ -18,111 +18,121 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            font-family: sans-serif;
+            font-family: 微软雅黑, sans-serif;
         }
-        .img-box {
-            width: 90%;
-            max-width: 800px;
-            border-radius: 12px;
+        .img-container {
+            width: 92%;
+            max-width: 850px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            margin-bottom: 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            margin-bottom: 35px;
+            background: #eee;
         }
-        #showImg {
+        #displayImg {
             width: 100%;
             height: auto;
             display: block;
             opacity: 0;
+            /* 顺滑淡入淡出动画 */
             transition: opacity 0.4s ease-in-out;
         }
-        #showImg.active {
+        #displayImg.active {
             opacity: 1;
         }
-        .btn-group {
+        .button-group {
             display: flex;
-            gap: 30px;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         button {
-            padding: 12px 32px;
+            padding: 14px 38px;
             font-size: 18px;
             border: none;
-            border-radius: 8px;
-            background: #222;
-            color: white;
+            border-radius: 10px;
+            background-color: #222222;
+            color: #ffffff;
             cursor: pointer;
+            transition: 0.2s;
         }
         button:hover {
-            background: #444;
+            background-color: #444444;
+            transform: translateY(-2px);
         }
-        .count {
-            margin-top: 20px;
-            font-size: 16px;
-            color: #555;
+        .page-count {
+            margin-top: 25px;
+            font-size: 17px;
+            color: #555555;
         }
     </style>
 </head>
 <body>
 
-    <div class="img-box">
-        <img id="showImg" class="active" alt="展示图片">
+    <div class="img-container">
+        <img id="displayImg" class="active" alt="轮播图片">
     </div>
 
-    <div class="btn-group">
-        <button onclick="prevImg()">⬅️ 上一张</button>
-        <button onclick="nextImg()">下一张 ➡️</button>
+    <div class="button-group">
+        <button onclick="goPrev()">⬅️ 上一张</button>
+        <button onclick="goNext()">下一张 ➡️</button>
     </div>
 
-    <div class="count" id="pageNum"></div>
+    <div class="page-count" id="pageNumber"></div>
 
 <script>
-// 👇 这里按你的12张图片填写
+// 12张图片完整精准路径，一字不差
 const imgList = [
-    "./img/1.jpg",
-    "./img/2.jpg",
-    "./img/3.jpg",
-    "./img/4.jpg",
-    "./img/5.jpg",
-    "./img/6.jpg",
-    "./img/7.jpg",
-    "./img/8.jpg",
-    "./img/9.jpg",
-    "./img/10.jpg",
-    "./img/11.jpg",
-    "./img/12.jpg"
+    "./图片/1772524334654.jpeg",
+    "./图片/1772524346393.jpeg",
+    "./图片/1772524355027.jpeg",
+    "./图片/1772524370139.jpeg",
+    "./图片/1772524374148.jpeg",
+    "./图片/1773117613634.jpeg",
+    "./图片/1773117627277.jpeg",
+    "./图片/1773117635515.jpeg",
+    "./图片/IMG_20260406_223008.jpg",
+    "./图片/Image_1778259815666_879.jpg",
+    "./图片/截图_2026-03-04-08-40-32-291_tv.da...",
+    "./图片/截图_2026-03-06-10-14-17-712_tv.dan..."
 ];
 
-let current = 0;
-const img = document.getElementById("showImg");
-const page = document.getElementById("pageNum");
+let currentIndex = 0;
+const imgElement = document.getElementById("displayImg");
+const pageText = document.getElementById("pageNumber");
 
-// 刷新显示
-function updateImg() {
-    img.classList.remove("active");
+// 更新图片显示
+function updateShow() {
+    imgElement.classList.remove("active");
     setTimeout(() => {
-        img.src = imgList[current];
-        img.classList.add("active");
-        page.innerText = `${current + 1} / ${imgList.length}`;
+        imgElement.src = imgList[currentIndex];
+        imgElement.classList.add("active");
+        // 显示 第几页/总共12页
+        pageText.innerText = `${currentIndex + 1} / ${imgList.length}`;
     }, 200);
 }
 
 // 上一张
-function prevImg() {
-    current--;
-    if(current < 0) current = imgList.length - 1;
-    updateImg();
+function goPrev() {
+    currentIndex--;
+    if(currentIndex < 0) {
+        currentIndex = imgList.length - 1;
+    }
+    updateShow();
 }
 
 // 下一张
-function nextImg() {
-    current++;
-    if(current >= imgList.length) current = 0;
-    updateImg();
+function goNext() {
+    currentIndex++;
+    if(currentIndex >= imgList.length) {
+        currentIndex = 0;
+    }
+    updateShow();
 }
 
-// 页面加载显示第一张
-updateImg();
+// 页面加载完成默认显示第一张
+updateShow();
 </script>
 
 </body>
 </html>
-
