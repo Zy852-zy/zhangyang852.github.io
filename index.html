@@ -1,12 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>张扬852 | 个人主页</title>
+<meta charset="UTF-8">
+<title>图片展示</title>
+<style>
+body{
+    text-align:center;
+    background:#f5f5f5;
+    margin-top:50px;
+}
+img{
+    width:700px;
+    height:auto;
+    border-radius:12px;
+    box-shadow:0 0 15px #ccc;
+    transition:opacity 0.4s;
+}
+button{
+    margin:30px 15px;
+    padding:10px 25px;
+    font-size:17px;
+    border:none;
+    background:#222;
+    color:#fff;
+    border-radius:8px;
+    cursor:pointer;
+}
+button:hover{
+    background:#444;
+}
+</style>
 </head>
+
 <body>
-    <h1>欢迎来到我的主页</h1>
-    <p>网址：zhangyang852.github.io</p>
-    <p>简约个人站点</p>
+
+<img id="pic">
+
+<br>
+<button onclick="prev()">上一张</button>
+<button onclick="next()">下一张</button>
+
+<script>
+// === 这里放你的图片，最多10张以内，随便改 ===
+let pics = [
+    "img/1.jpg",
+    "img/2.jpg",
+    "img/3.jpg",
+    "img/4.jpg",
+    "img/5.jpg"
+];
+
+let num = 0;
+let img = document.getElementById("pic");
+
+// 默认显示第一张
+img.src = pics[num];
+
+// 下一张
+function next(){
+    num++;
+    if(num >= pics.length) num = 0;
+    img.src = pics[num];
+}
+
+// 上一张
+function prev(){
+    num--;
+    if(num < 0) num = pics.length - 1;
+    img.src = pics[num];
+}
+</script>
+
 </body>
 </html>
-
