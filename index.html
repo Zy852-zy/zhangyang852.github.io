@@ -1,75 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<title>图片展示</title>
-<style>
-body{
-    text-align:center;
-    background:#f5f5f5;
-    margin-top:50px;
-}
-img{
-    width:700px;
-    height:auto;
-    border-radius:12px;
-    box-shadow:0 0 15px #ccc;
-    transition:opacity 0.4s;
-}
-button{
-    margin:30px 15px;
-    padding:10px 25px;
-    font-size:17px;
-    border:none;
-    background:#222;
-    color:#fff;
-    border-radius:8px;
-    cursor:pointer;
-}
-button:hover{
-    background:#444;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片切换</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: sans-serif;
+        }
+        .img-box {
+            width: 90%;
+            max-width: 800px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+        #showImg {
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        #showImg.active {
+            opacity: 1;
+        }
+        .btn-group {
+            display: flex;
+            gap: 30px;
+        }
+        button {
+            padding: 12px 32px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            background: #222;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #444;
+        }
+        .count {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
 </head>
-
 <body>
 
-<img id="pic">
+    <div class="img-box">
+        <img id="showImg" class="active" alt="展示图片">
+    </div>
 
-<br>
-<button onclick="prev()">上一张</button>
-<button onclick="next()">下一张</button>
+    <div class="btn-group">
+        <button onclick="prevImg()">⬅️ 上一张</button>
+        <button onclick="nextImg()">下一张 ➡️</button>
+    </div>
+
+    <div class="count" id="pageNum"></div>
 
 <script>
-// === 这里放你的图片，最多10张以内，随便改 ===
-let pics = [
-    "img/1.jpg",
-    "img/2.jpg",
-    "img/3.jpg",
-    "img/4.jpg",
-    "img/5.jpg"
+// 👇 这里按你的12张图片填写
+const imgList = [
+    "./img/1.jpg",
+    "./img/2.jpg",
+    "./img/3.jpg",
+    "./img/4.jpg",
+    "./img/5.jpg",
+    "./img/6.jpg",
+    "./img/7.jpg",
+    "./img/8.jpg",
+    "./img/9.jpg",
+    "./img/10.jpg",
+    "./img/11.jpg",
+    "./img/12.jpg"
 ];
 
-let num = 0;
-let img = document.getElementById("pic");
+let current = 0;
+const img = document.getElementById("showImg");
+const page = document.getElementById("pageNum");
 
-// 默认显示第一张
-img.src = pics[num];
-
-// 下一张
-function next(){
-    num++;
-    if(num >= pics.length) num = 0;
-    img.src = pics[num];
+// 刷新显示
+function updateImg() {
+    img.classList.remove("active");
+    setTimeout(() => {
+        img.src = imgList[current];
+        img.classList.add("active");
+        page.innerText = `${current + 1} / ${imgList.length}`;
+    }, 200);
 }
 
 // 上一张
-function prev(){
-    num--;
-    if(num < 0) num = pics.length - 1;
-    img.src = pics[num];
+function prevImg() {
+    current--;
+    if(current < 0) current = imgList.length - 1;
+    updateImg();
 }
+
+// 下一张
+function nextImg() {
+    current++;
+    if(current >= imgList.length) current = 0;
+    updateImg();
+}
+
+// 页面加载显示第一张
+updateImg();
 </script>
 
 </body>
 </html>
+
